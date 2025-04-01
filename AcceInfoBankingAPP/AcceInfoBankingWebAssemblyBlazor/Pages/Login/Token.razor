@@ -1,0 +1,153 @@
+﻿@page "/token"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Frogetor - OTP Verification</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .otp-input {
+            width: 40px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        .otp-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        /*.btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }*/
+        .resend-text {
+            margin-top: 10px;
+            color: #6c757d;
+        }
+        .resend-btn {
+            background: none;
+            border: none;
+            color: #007bff;
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="account-body">
+
+    <!-- OTP Page -->
+    <div class="row vh-100">
+        <div class="col-lg-3 pr-0 mt-5">
+            <div class="card mb-0 shadow-none">
+                <div class="card-body">
+
+                    <div class="px-3">
+                        <div class="media">
+                            <a href="index.html" class="logo logo-admin"><img src="/assets/images/logo-dark-sm.png" height="55" alt="logo" class="my-3"></a>
+                            <div class="media-body ml-3 align-self-center">                                                                                                                       
+                                <h4 class="mt-0 mb-1" id="title-page">ACCE Token</h4>
+                                <p class="text-muted mb-0">If you use the Entrust IdentityGuard Mobile app, you can copy and paste the token number into the RBC Caribbean app.</p>
+                            </div>
+                        </div>   
+
+                        <br /> 
+                        <br />                         
+
+                        <div id="otpSection">
+                            <!-- <h4 class="text-center mt-3">Enter OTP</h4> -->
+                            <label for="username">Please enter the value from your Secure Token</label>
+                            <div class="otp-container">
+                                <input type="text" class="otp-input" maxlength="1" id="otp1" onkeyup="moveToNext(this, 'otp2')" />
+                                <input type="text" class="otp-input" maxlength="1" id="otp2" onkeyup="moveToNext(this, 'otp3')" />
+                                <input type="text" class="otp-input" maxlength="1" id="otp3" onkeyup="moveToNext(this, 'otp4')" />
+                                <input type="text" class="otp-input" maxlength="1" id="otp4" onkeyup="moveToNext(this, 'otp5')" />
+                                <input type="text" class="otp-input" maxlength="1" id="otp5" onkeyup="moveToNext(this, 'otp6')" />
+                                <input type="text" class="otp-input" maxlength="1" id="otp6" onkeyup="moveToNext(this, '')" />
+                            </div>
+                            <button class="btn btn-primary btn-block waves-effect waves-light mt-3" type="button" @onclick="NavigateToDashboard">Continue</button>
+                        </div>
+                    </div>
+
+                    <div class="m-3 text-center bg-light p-3 text-primary">
+                        <h5 class="">Remember It?</h5>
+                        <p class="font-13">Sign In ACCE Now</p>
+                        <a class="btn btn-primary btn-round waves-effect waves-light" @onclick="NavigateToSignIn">Sign In here</a>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-9 p-0 d-flex justify-content-center">
+            <div class="accountbg d-flex align-items-center"> 
+                <div class="account-title text-white text-center">
+                    <h2 class="mt-3">Welcome to Acce<span style="color: #df1a22;">Info</span></h2>
+                    <div class="border w-25 mx-auto border-primary"></div>
+                    <h1 class="">Let's Get Started</h1>
+                    <p class="font-14 mt-3">Remember It? <a href="" style="color: #df1a22;" @onclick="NavigateToSignIn">Sign In here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End OTP Page -->
+
+    <!-- jQuery -->
+    <script src="/assets/js/jquery.min.js"></script>
+    @* <script src="assets/js/bootstrap.bundle.min.js"></script> *@
+
+    <script>
+        function redirectToIndex() {
+            window.location.href = "index.html"; // Redirects to index.html
+        }
+    </script>
+</body>
+</html>
+
+
+@code {
+    private async Task NavigateToSignIn()
+    {
+        // This will navigate to the weather page programmatically
+        NavigationManager.NavigateTo("/");
+        //await JS.InvokeVoidAsync("window.open", "https://www.google.com/", "_blank");
+        //await JS.InvokeVoidAsync("window.open", "/token", "_blank");
+       // await JS.InvokeVoidAsync("eval", "window.location.href = '/';");
+    }
+    private async Task NavigateToDashboard()
+    {
+        // This will navigate to the weather page programmatically
+        NavigationManager.NavigateTo("/dashboard");
+        //await JS.InvokeVoidAsync("window.open", "https://www.google.com/", "_blank");
+        //await JS.InvokeVoidAsync("window.open", "/token", "_blank");
+        // await JS.InvokeVoidAsync("eval", "window.location.href = '/';");
+    }
+}
