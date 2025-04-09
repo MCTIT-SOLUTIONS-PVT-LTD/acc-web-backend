@@ -1,0 +1,173 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+@using System.ComponentModel.DataAnnotations
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>ACCEINFO - Responsive Bootstrap 4 Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="A premium admin dashboard template by mannatthemes" name="description" />
+    <meta content="Mannatthemes" name="author" />
+
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <!-- App css -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="account-body">
+
+    <!-- Log In page -->
+    <div class="row vh-100">
+        <div class="col-lg-4  pr-0">
+            <div class="card mb-0 shadow-none">
+                <div class="card-body">
+
+                    <div class="px-3" style="margin-top:30%;">
+                        <div class="media">
+                            <!-- <a href="index.html" class="logo logo-admin"><img src="assets/images/logo-sm.png" height="55" alt="logo" class="my-3"></a> -->
+
+                            <div class="media-body ml-3 align-self-center">
+                                <img src="/assets/images/logo-dark.png" height="35" alt="logo" class="my-3">
+                                <p class="text-muted mb-0">Sign in to continue to ACCEINFO.</p>
+                            </div>
+                        </div>
+
+                        <form class="form-horizontal my-4" onsubmit="return false;">
+
+                            <div class="form-group">
+                                <label for="username">Client Card or Username</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="mdi mdi-account-outline font-16"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" id="username" @bind="loginModel.userId" placeholder="Enter username">
+                                </div>
+                                @if (!string.IsNullOrEmpty(UsernameError))
+                                {
+                                    <small class="text-danger">@UsernameError</small>
+                                }
+                            </div>
+
+                            <div class="form-group">
+                                <label for="userpassword">Password</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-key font-16"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" id="userpassword" @bind="loginModel.Password" placeholder="Enter password">
+                                </div>
+                                @if (!string.IsNullOrEmpty(PasswordError))
+                                {
+                                    <small class="text-danger">@PasswordError</small>
+                                }
+                            </div>
+
+                            <div class="form-group row mt-4">
+                                <div class="col-sm-6">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="customControlInline">
+                                        <label class="custom-control-label" for="customControlInline">Save client card or username</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <a href="forgot-password.html" class="text-muted font-13"><i class="mdi mdi-lock"></i> Forgot your password?</a>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-0 row">
+                                <div class="col-12 mt-2">
+                                    <button class="btn btn-primary btn-block waves-effect waves-light" type="submit" @onclick="NavigateToSecureToken">Sign In <i class="fas fa-sign-in-alt ml-1"></i></button>
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(ErrorMessage))
+                            {
+                                <div class="alert alert-danger mt-3">@ErrorMessage</div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 p-0 d-flex justify-content-center">
+            <div class="accountbg d-flex align-items-center">
+                <div class="account-title text-white text-center">
+                    <!-- <img src="assets/images/logo-dark.png" alt="" class="logo-lg"> -->
+                    <h2 class="mt-3">Welcome to Acce<span style="color: #df1a22;">Info</span></h2>
+                    <div class="border w-25 mx-auto border-primary"></div>
+                    <h1 class="">Let's Get Started</h1>
+                    <p class="font-14 mt-3">Don't have an account ? <a href="" style="color: #df1a22;">Sign up</a></p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Log In page -->
+    <!-- jQuery  -->
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/waves.min.js"></script>
+</body>
+</html>
+@code {
+    private string UsernameError = "";
+    private string PasswordError = "";
+    private LoginModel loginModel = new LoginModel();
+    private TestModel testModel = new TestModel();
+    private string ErrorMessage = "";
+
+
+    private async Task NavigateToSecureToken()
+    {
+        if (string.IsNullOrEmpty(loginModel.userId))
+            UsernameError = "Please enter your Username or Card number";
+        else
+            UsernameError = string.Empty;
+        if (string.IsNullOrEmpty(loginModel.Password))
+            PasswordError = "Please enter your password.";
+        else
+            PasswordError = string.Empty;
+
+        if (!string.IsNullOrEmpty(loginModel.Password) && !string.IsNullOrEmpty(loginModel.userId))
+            ErrorMessage = string.Empty;
+        
+
+        if (!string.IsNullOrEmpty(UsernameError) || !string.IsNullOrEmpty(PasswordError))
+        {
+            return;
+        }
+        if ((loginModel.userId == "mihirgohil" || loginModel.userId == "5127880999999990") &&  loginModel.Password == "12345678")
+        {
+            NavigationManager.NavigateTo("/token");
+            //await JS.InvokeVoidAsync("eval", "window.location.href = '/token';");
+        }
+        else
+        {
+            ErrorMessage = "Invalid username or password."; // ❌ Show error message if login fails
+        }
+    }
+    private async Task APITest()
+    {
+        testModel.SystemUserId = "0398fa50-7966-ee11-9ae7-6045bd8c54e2";
+        testModel.ApiKey = "WM687MCPfEqkheNcs1kZrwu28YD6HSaw";
+    }
+    public class LoginModel
+    {
+
+        public string LoginType { get; set; }
+        [Required(ErrorMessage = "Username or Card number is required.")]
+        public string userId { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+    public class TestModel
+    {
+        public string SystemUserId { get; set; } = "";
+        public string ApiKey { get; set; } = "";
+    }
+}

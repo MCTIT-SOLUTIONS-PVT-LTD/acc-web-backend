@@ -1,0 +1,6 @@
+@AcceInfoBankingAPI_HostAddress = http://localhost:5085
+
+GET {{AcceInfoBankingAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
