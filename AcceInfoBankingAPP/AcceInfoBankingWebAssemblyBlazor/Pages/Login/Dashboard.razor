@@ -135,7 +135,7 @@
                 <img src="/assets/images/users/user-1.jpg" alt="user" class="rounded-circle img-thumbnail mb-1">
                 <span class="online-icon"><i class="mdi mdi-record text-success"></i></span>
                 <div class="media-body">
-                    <h5 class="text-light">Mr. Michael Hill </h5>
+                    <h5 class="text-light">Mr. Mihir Gohil </h5>
                     <ul class="list-unstyled list-inline mb-0 mt-2">
                         <li class="list-inline-item">
                             <a href="#" class=""><i class="mdi mdi-account text-light"></i></a>
@@ -144,7 +144,7 @@
                             <a href="#" class=""><i class="mdi mdi-settings text-light"></i></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="login.html" class=""><i class="mdi mdi-power text-danger"></i></a>
+                            <a href="javascript:void(0);" class="" @onclick="NavigateToLogin"><i class="mdi mdi-power text-danger"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -232,7 +232,7 @@
                                                         </div> -->
                                                         <div class="fro_profile_user-detail mt-4">
                                                             <h4 class="fro_user-name text-primary">Good Morning,</h4>
-                                                            <h5 class="fro_user-name text-primary">Welcome, G.Raymond</h5>
+                                                            <h5 class="fro_user-name text-primary">Welcome, Mihir Gohil</h5>
                                                             <a href="#" class="mb-0 fro_user-name-post text-primary">Go to ACCE Business Banking</a>
                                                         </div>
                                                     </div>
@@ -707,5 +707,12 @@
 </html>
 
 @code {
-
+    private async Task NavigateToLogin()
+    {
+        // This will navigate to the weather page programmatically
+        NavigationManager.NavigateTo("/");
+        //await JS.InvokeVoidAsync("window.open", "https://www.google.com/", "_blank");
+        //await JS.InvokeVoidAsync("window.open", "/token", "_blank");
+        // await JS.InvokeVoidAsync("eval", "window.location.href = '/';");
+    }
 }

@@ -86,13 +86,13 @@
                         <div id="otpSection">
                             <!-- <h4 class="text-center mt-3">Enter OTP</h4> -->
                             <label for="username">Please enter the value from your Secure Token</label>
-                            <div class="otp-container">
-                                <input type="text" class="otp-input" maxlength="1" id="otp1" onkeyup="moveToNext(this, 'otp2')" />
-                                <input type="text" class="otp-input" maxlength="1" id="otp2" onkeyup="moveToNext(this, 'otp3')" />
-                                <input type="text" class="otp-input" maxlength="1" id="otp3" onkeyup="moveToNext(this, 'otp4')" />
-                                <input type="text" class="otp-input" maxlength="1" id="otp4" onkeyup="moveToNext(this, 'otp5')" />
-                                <input type="text" class="otp-input" maxlength="1" id="otp5" onkeyup="moveToNext(this, 'otp6')" />
-                                <input type="text" class="otp-input" maxlength="1" id="otp6" onkeyup="moveToNext(this, '')" />
+                           <div class="otp-container">
+                            <input type="text" class="otp-input" maxlength="1" id="otp1" onkeyup="moveToNext(this, 'otp2','')" />
+                            <input type="text" class="otp-input" maxlength="1" id="otp2" onkeyup="moveToNext(this, 'otp3','otp1')" />
+                            <input type="text" class="otp-input" maxlength="1" id="otp3" onkeyup="moveToNext(this, 'otp4','otp2')" />
+                            <input type="text" class="otp-input" maxlength="1" id="otp4" onkeyup="moveToNext(this, 'otp5','otp3')" />
+                            <input type="text" class="otp-input" maxlength="1" id="otp5" onkeyup="moveToNext(this, 'otp6','otp4')" />
+                            <input type="text" class="otp-input" maxlength="1" id="otp6" onkeyup="moveToNext(this, '','otp5')" />
                             </div>
                             <button class="btn btn-primary btn-block waves-effect waves-light mt-3" type="button" @onclick="NavigateToDashboard">Continue</button>
                         </div>
@@ -127,6 +127,21 @@
     <script>
         function redirectToIndex() {
             window.location.href = "index.html"; // Redirects to index.html
+        }
+        function moveToNext(currentInput, nextInputId, prevInputId) {
+            const key = event.key;
+
+            if (key === "Backspace" && !currentInput.value && prevInputId) {
+                const prevInput = document.getElementById(prevInputId);
+                if (prevInput) {
+                    prevInput.focus();
+                }
+            } else if (currentInput.value.length === 1 && nextInputId) {
+                const nextInput = document.getElementById(nextInputId);
+                if (nextInput) {
+                    nextInput.focus();
+                }
+            }
         }
     </script>
 </body>

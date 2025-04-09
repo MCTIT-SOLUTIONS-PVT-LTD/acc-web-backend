@@ -1,6 +1,7 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@using System.ComponentModel.DataAnnotations
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,8 +48,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class="mdi mdi-account-outline font-16"></i></span>
                                     </div>
-                                    <input type="text" class="form-control" id="username" @bind="loginModel.Username" placeholder="Enter username">
+                                    <input type="text" class="form-control" id="username" @bind="loginModel.userId" placeholder="Enter username">
                                 </div>
+                                @if (!string.IsNullOrEmpty(UsernameError))
+                                {
+                                    <small class="text-danger">@UsernameError</small>
+                                }
                             </div>
 
                             <div class="form-group">
@@ -59,6 +64,10 @@
                                     </div>
                                     <input type="password" class="form-control" id="userpassword" @bind="loginModel.Password" placeholder="Enter password">
                                 </div>
+                                @if (!string.IsNullOrEmpty(PasswordError))
+                                {
+                                    <small class="text-danger">@PasswordError</small>
+                                }
                             </div>
 
                             <div class="form-group row mt-4">
@@ -78,6 +87,10 @@
                                     <button class="btn btn-primary btn-block waves-effect waves-light" type="submit" @onclick="NavigateToSecureToken">Sign In <i class="fas fa-sign-in-alt ml-1"></i></button>
                                 </div>
                             </div>
+                            @if (!string.IsNullOrEmpty(ErrorMessage))
+                            {
+                                <div class="alert alert-danger mt-3">@ErrorMessage</div>
+                            }
                         </form>
                     </div>
                 </div>
@@ -103,7 +116,8 @@
 </body>
 </html>
 @code {
-
+    private string UsernameError = "";
+    private string PasswordError = "";
     private LoginModel loginModel = new LoginModel();
     private TestModel testModel = new TestModel();
     private string ErrorMessage = "";
@@ -111,7 +125,24 @@
 
     private async Task NavigateToSecureToken()
     {
-        if (loginModel.Username == "admin" && loginModel.Password == "admin")
+        if (string.IsNullOrEmpty(loginModel.userId))
+            UsernameError = "Please enter your Username or Card number";
+        else
+            UsernameError = string.Empty;
+        if (string.IsNullOrEmpty(loginModel.Password))
+            PasswordError = "Please enter your password.";
+        else
+            PasswordError = string.Empty;
+
+        if (!string.IsNullOrEmpty(loginModel.Password) && !string.IsNullOrEmpty(loginModel.userId))
+            ErrorMessage = string.Empty;
+        
+
+        if (!string.IsNullOrEmpty(UsernameError) || !string.IsNullOrEmpty(PasswordError))
+        {
+            return;
+        }
+        if ((loginModel.userId == "mihirgohil" || loginModel.userId == "5127880999999990") &&  loginModel.Password == "12345678")
         {
             NavigationManager.NavigateTo("/token");
             //await JS.InvokeVoidAsync("eval", "window.location.href = '/token';");
@@ -125,14 +156,13 @@
     {
         testModel.SystemUserId = "0398fa50-7966-ee11-9ae7-6045bd8c54e2";
         testModel.ApiKey = "WM687MCPfEqkheNcs1kZrwu28YD6HSaw";
-        
-       
-        
-
     }
     public class LoginModel
     {
-        public string Username { get; set; } = "";
+
+        public string LoginType { get; set; }
+        [Required(ErrorMessage = "Username or Card number is required.")]
+        public string userId { get; set; } = "";
         public string Password { get; set; } = "";
     }
     public class TestModel
